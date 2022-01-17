@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04407BA62796134700214E97 /* CustomExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04407BA52796134700214E97 /* CustomExtensions.swift */; };
 		04FFC955279596CD0010E63F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FFC954279596CD0010E63F /* AppDelegate.swift */; };
 		04FFC957279596CD0010E63F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FFC956279596CD0010E63F /* SceneDelegate.swift */; };
 		04FFC959279596CD0010E63F /* CurrencyConverterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FFC958279596CD0010E63F /* CurrencyConverterViewController.swift */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04407BA52796134700214E97 /* CustomExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomExtensions.swift; sourceTree = "<group>"; };
 		04FFC951279596CC0010E63F /* CurrencyConverter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CurrencyConverter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04FFC954279596CD0010E63F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04FFC956279596CD0010E63F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 		04FFC953279596CD0010E63F /* CurrencyConverter */ = {
 			isa = PBXGroup;
 			children = (
+				04407BA52796134700214E97 /* CustomExtensions.swift */,
 				04FFC954279596CD0010E63F /* AppDelegate.swift */,
 				04FFC956279596CD0010E63F /* SceneDelegate.swift */,
 				04FFC958279596CD0010E63F /* CurrencyConverterViewController.swift */,
@@ -206,6 +209,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04407BA62796134700214E97 /* CustomExtensions.swift in Sources */,
 				04FFC959279596CD0010E63F /* CurrencyConverterViewController.swift in Sources */,
 				04FFC955279596CD0010E63F /* AppDelegate.swift in Sources */,
 				04FFC957279596CD0010E63F /* SceneDelegate.swift in Sources */,
