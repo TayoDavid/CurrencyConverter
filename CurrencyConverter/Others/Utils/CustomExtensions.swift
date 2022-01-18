@@ -51,3 +51,22 @@ extension UIView {
         layer.mask = mask
     }
 }
+
+extension DateFormatter {
+    static let newsDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY-MM-dd"
+        return formatter
+    }()
+}
+
+extension String{
+    func flag(country: String) -> String {
+        let base = 127397
+        var usv = String.UnicodeScalarView()
+        for i in country.utf16 {
+            usv.append(UnicodeScalar(base + Int(i))!)
+        }
+        return String(usv)
+    }
+}

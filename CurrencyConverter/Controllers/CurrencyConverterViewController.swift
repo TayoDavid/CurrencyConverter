@@ -38,8 +38,12 @@ class CurrencyConverterViewController: UIViewController {
     @IBOutlet weak var chartView: UIView!
     @IBOutlet weak var getAlertLabel: UILabel!
     
+    var currenciesList: [String] = []
+    var baseCurrency: CurrencyRate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchLatestCurrency()
         prepareDropdowns()
     }
 
@@ -70,9 +74,6 @@ class CurrencyConverterViewController: UIViewController {
         fromCurrencyDropdown.arrowColor = .systemGray4
         targetCurrencyDropdown.arrowSize = 12
         targetCurrencyDropdown.arrowColor = .systemGray4
-        
-        fromCurrencyDropdown.optionArray = ["John", "James", "Jane", "Jones"]
-        targetCurrencyDropdown.optionArray = ["USD", "EURO", "PLN", "NGN"]
     }
     
     
@@ -89,6 +90,36 @@ class CurrencyConverterViewController: UIViewController {
             
             lastThirtyDaysButton.setTitleColor(.systemGray3, for: .normal)
             lastThirtyDaysActiveIndicator.isHidden = true
+        }
+    }
+    
+    private func fetchLatestCurrency() {
+        APICallsManager.shared.latest { result in
+            switch result {
+                case .success(let exchangeData):
+                    DispatchQueue.main.async {
+                        
+                        let base = exchangeData.baseCurrency
+                        let baseCurrencyRate = exchangeData.currencyRates.first(where: { $0.currencyCode.localizedCaseInsensitiveContains(base) })?.rate
+                        self.currenciesList = exchangeData.currencyRates.map { " ".flag(country: $0.currencyCode) + " " + $0.currencyCode }
+                        self.fromCurrencyDropdown.optionArray = self.currenciesList
+                        self.targetCurrencyDropdown.optionArray = self.currenciesList
+                        
+                        self.fromCurrencyDropdown.text = self.currenciesList.first(where: { $0.localizedCaseInsensitiveContains(base)})
+                        
+                        self.fromCurrencySymbolLabel.text = base
+                        self.fromCurrencyTextField.text = "\(baseCurrencyRate ?? 0)"
+                        
+                        let randomPosition = Int.random(in: 1..<self.currenciesList.count)
+                        let randomCurrency = exchangeData.currencyRates[randomPosition]
+                        self.targetCurrencySymbolLabel.text = randomCurrency.currencyCode
+                        self.targetCurrencyDropdown.text = self.currenciesList[randomPosition]
+                        self.targetCurrencyTextField.text = "\(randomCurrency.rate)"
+                        
+                    }
+                case .failure(let error):
+                    print(error)
+            }
         }
     }
     
