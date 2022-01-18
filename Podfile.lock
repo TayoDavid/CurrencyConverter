@@ -3,7 +3,7 @@ PODS:
   - Charts (3.6.0):
     - Charts/Core (= 3.6.0)
   - Charts/Core (3.6.0)
-  - DropDown (2.3.13)
+  - iOSDropDown (0.3.4)
   - Realm (10.21.1):
     - Realm/Headers (= 10.21.1)
   - Realm/Headers (10.21.1)
@@ -14,7 +14,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - Charts
-  - DropDown
+  - iOSDropDown
   - RealmSwift
   - SwiftyJSON
 
@@ -22,7 +22,7 @@ SPEC REPOS:
   trunk:
     - Alamofire
     - Charts
-    - DropDown
+    - iOSDropDown
     - Realm
     - RealmSwift
     - SwiftyJSON
@@ -30,11 +30,11 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: f3b09a368f1582ab751b3fff5460276e0d2cf5c9
   Charts: b1e3a1f5a1c9ba5394438ca3b91bd8c9076310af
-  DropDown: 8a2116376c1981888557f72ec2ffc9a5e0e456ec
+  iOSDropDown: c10a761f9a00c3f1cc9d3bce43ae504628e2f692
   Realm: 44b41c3ae39e3ecfded71a04434bfde066c7b317
   RealmSwift: dbf9a4eb06e0c929d51c4ef2e8f951bca541feab
   SwiftyJSON: 2f33a42c6fbc52764d96f13368585094bfd8aa5e
 
-PODFILE CHECKSUM: 15694a3af44667c48a87a150f93575319c4ada7a
+PODFILE CHECKSUM: 6fc1af49978863d427c93b23f64036a428e633e9
 
 COCOAPODS: 1.11.2

@@ -6,7 +6,7 @@
 //
 
 import UIKit
-import DropDown
+import iOSDropDown
 
 class CurrencyConverterViewController: UIViewController {
 
@@ -22,58 +22,74 @@ class CurrencyConverterViewController: UIViewController {
     @IBOutlet weak var fromCurrencySymbolLabel: UILabel!
     @IBOutlet weak var targetCurrencySymbolLabel: UILabel!
     
-    @IBOutlet weak var fromCurrencyDropdownView: UIView!
-    @IBOutlet weak var targetCurrencyDropdownView: UIView!
+    @IBOutlet weak var fromCurrencyDropdown: DropDown!
+    @IBOutlet weak var targetCurrencyDropdown: DropDown!
     
-    @IBOutlet weak var fromCurrencyLogoImgView: UIImageView!
-    @IBOutlet weak var selectedFromCurrencyLabel: UILabel!
-    
-    @IBOutlet weak var targetCurrencyLogoImgView: UIImageView!
-    @IBOutlet weak var selectedTargetCurrencyLabel: UILabel!
-    
+    @IBOutlet weak var linkLabel: UILabel!
     @IBOutlet weak var convertButton: UIButton!
-    let fromCurrencyDropdown = DropDown()
-    let targetCurrencyDropdown = DropDown()
-        
+    
+    @IBOutlet weak var chartContainerView: UIView!
+    @IBOutlet weak var lastThirtyDaysButton: UIButton!
+    @IBOutlet weak var lastThirtyDaysActiveIndicator: UIView!
+    
+    @IBOutlet weak var lastNinetyDaysButton: UIButton!
+    @IBOutlet weak var lastNinetyDaysActiveIndicator: UIView!
+    
+    @IBOutlet weak var chartView: UIView!
+    @IBOutlet weak var getAlertLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        fromCurrencyView.layer.cornerRadius = 8
-        targetCurrencyView.layer.cornerRadius = 8
-    
-        fromCurrencyDropdown.anchorView = fromCurrencyDropdownView
-        targetCurrencyDropdown.anchorView = targetCurrencyDropdownView
-    
-        fromCurrencyDropdown.dataSource = ["USD", "EURO", "PLN"]
-        targetCurrencyDropdown.dataSource = ["USD", "EURO", "PLN"]
-        
-        fromCurrencyDropdown.bottomOffset = CGPoint(x: 0, y: (fromCurrencyDropdown.anchorView?.plainView.bounds.height)!)
-        fromCurrencyDropdown.topOffset = CGPoint(x: 0, y:-((fromCurrencyDropdown.anchorView?.plainView.bounds.height)!))
-        fromCurrencyDropdown.direction = .bottom
-
-        targetCurrencyDropdown.bottomOffset = CGPoint(x: 0, y:(targetCurrencyDropdown.anchorView?.plainView.bounds.height)!)
-        targetCurrencyDropdown.topOffset = CGPoint(x: 0, y:-(targetCurrencyDropdown.anchorView?.plainView.bounds.height)!)
-        targetCurrencyDropdown.direction = .bottom
-        
-        
-        fromCurrencyDropdownView.isUserInteractionEnabled = true
-        
-        fromCurrencyDropdownView.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(didTapFromCurrencyDropdown)))
-        
-        targetCurrencyDropdownView.addGestureRecognizer(UIGestureRecognizer(target: self, action: #selector(didTapTargetCurrencyDropdown)))
-        
+        prepareDropdowns()
     }
 
     @IBAction func didTapConvertButton(_ sender: UIButton) {
         
     }
+    
+    override func viewWillLayoutSubviews() {
+        fromCurrencyView.layer.cornerRadius = 8
+        targetCurrencyView.layer.cornerRadius = 8
+        convertButton.layer.cornerRadius = 8
         
-    @objc func didTapFromCurrencyDropdown() {
-        fromCurrencyDropdown.show(onTopOf: nil, beforeTransform: nil, anchorPoint: nil)
+        let underlineAttribute = [NSAttributedString.Key.underlineStyle: NSUnderlineStyle.styleSingle.rawValue]
+        let underlineAttributedString = NSAttributedString(string: "Mid-market exchange rate at 13:38 UTC", attributes: underlineAttribute)
+        linkLabel.attributedText = underlineAttributedString
+        
+        let alertUnderlineAttributedString = NSAttributedString(string: "Get rate alerts straight to your email inbox", attributes: underlineAttribute)
+        getAlertLabel.attributedText = alertUnderlineAttributedString
+        
+        lastNinetyDaysActiveIndicator.layer.cornerRadius = lastNinetyDaysActiveIndicator.frame.size.width / 2
+        lastThirtyDaysActiveIndicator.layer.cornerRadius = lastThirtyDaysActiveIndicator.frame.size.width / 2
+        
+        chartContainerView.roundCorners(corners: [.topLeft, .topRight], radius: 24)
     }
     
-    @objc func didTapTargetCurrencyDropdown() {
-        targetCurrencyDropdown.show()
+    private func prepareDropdowns() {
+        fromCurrencyDropdown.arrowSize = 12
+        fromCurrencyDropdown.arrowColor = .systemGray4
+        targetCurrencyDropdown.arrowSize = 12
+        targetCurrencyDropdown.arrowColor = .systemGray4
+        
+        fromCurrencyDropdown.optionArray = ["John", "James", "Jane", "Jones"]
+        targetCurrencyDropdown.optionArray = ["USD", "EURO", "PLN", "NGN"]
+    }
+    
+    
+    @IBAction func didTapButton(_ sender: UIButton) {
+        if sender == lastThirtyDaysButton {
+            lastThirtyDaysButton.setTitleColor(.white, for: .normal)
+            lastThirtyDaysActiveIndicator.isHidden = false
+            
+            lastNinetyDaysButton.setTitleColor(.systemGray3, for: .normal)
+            lastNinetyDaysActiveIndicator.isHidden = true
+        } else if sender == lastNinetyDaysButton {
+            lastNinetyDaysButton.setTitleColor(.white, for: .normal)
+            lastNinetyDaysActiveIndicator.isHidden = false
+            
+            lastThirtyDaysButton.setTitleColor(.systemGray3, for: .normal)
+            lastThirtyDaysActiveIndicator.isHidden = true
+        }
     }
     
 }

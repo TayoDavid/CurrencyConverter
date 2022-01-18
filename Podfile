@@ -9,7 +9,7 @@ target 'CurrencyConverter' do
   pod 'SwiftyJSON'
   pod 'Alamofire'
   pod 'RealmSwift'
-  pod 'DropDown'
+  pod 'iOSDropDown'
   pod 'Charts'
   
 end
