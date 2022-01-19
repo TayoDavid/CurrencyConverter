@@ -13,7 +13,7 @@ import RealmSwift
 final class APICallsManager {
     
     static let shared = APICallsManager()
-    let localRealm = try! Realm()
+    let localRealm = DBManager.sharedLocalRealm
     var currencyRates: [CurrencyRate] = []
     
     private struct Constants {
@@ -46,7 +46,6 @@ final class APICallsManager {
     
     public func latest(completion: @escaping (Result<ExchangeData, Error>) -> Void) {
         guard let urlString = buildUrlString(for: .latest) else {
-            print("Nothing happened!")
             return
         }
         
@@ -75,6 +74,13 @@ final class APICallsManager {
                 }
             }
     
+    }
+    
+    public func convert(from: String, to: String, amount: String) {
+        let params = ["from": from, "to": to, "amount": amount]
+        guard let urlString = buildUrlString(for: .convert, queryParams: params) else { return }
+        
+        print(urlString)
     }
     
 }

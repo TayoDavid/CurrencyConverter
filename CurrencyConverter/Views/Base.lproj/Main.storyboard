@@ -284,6 +284,10 @@
                                             <constraint firstItem="90Y-Gk-Zp0" firstAttribute="centerY" secondItem="YmU-F4-NMg" secondAttribute="centerY" id="y3J-EU-N3f"/>
                                         </constraints>
                                     </view>
+                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="a1n-hf-vzC">
+                                        <rect key="frame" x="188.5" y="110" width="37" height="37"/>
+                                        <color key="color" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </activityIndicatorView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="G45-wo-XET" secondAttribute="bottom" id="54b-h9-6nb"/>
@@ -291,6 +295,8 @@
                                     <constraint firstItem="G45-wo-XET" firstAttribute="top" secondItem="BfD-ci-Kxq" secondAttribute="top" id="MYu-dv-W6N"/>
                                     <constraint firstItem="G45-wo-XET" firstAttribute="centerX" secondItem="BfD-ci-Kxq" secondAttribute="centerX" id="aDH-OZ-ej9"/>
                                     <constraint firstItem="G45-wo-XET" firstAttribute="leading" secondItem="BfD-ci-Kxq" secondAttribute="leading" id="cZI-vb-Kwy"/>
+                                    <constraint firstItem="a1n-hf-vzC" firstAttribute="top" secondItem="BfD-ci-Kxq" secondAttribute="top" constant="110" id="iU5-P2-3Av"/>
+                                    <constraint firstItem="a1n-hf-vzC" firstAttribute="centerX" secondItem="BfD-ci-Kxq" secondAttribute="centerX" id="vmw-kB-rOW"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
@@ -308,6 +314,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="414" height="898"/>
                     <connections>
+                        <outlet property="activityIndicator" destination="a1n-hf-vzC" id="5Sz-Ag-HdC"/>
                         <outlet property="chartContainerView" destination="Xk6-a1-Enk" id="K1T-zc-FA1"/>
                         <outlet property="chartView" destination="uaU-fW-RHD" id="AHu-jD-mZf"/>
                         <outlet property="convertButton" destination="uOE-Yr-2ld" id="gEi-LU-LMA"/>

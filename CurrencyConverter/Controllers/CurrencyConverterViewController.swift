@@ -38,13 +38,24 @@ class CurrencyConverterViewController: UIViewController {
     @IBOutlet weak var chartView: UIView!
     @IBOutlet weak var getAlertLabel: UILabel!
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     var currenciesList: [String] = []
     var baseCurrency: CurrencyRate?
+    var allCurrencyRates: [CurrencyRate] = []
+    let currencyData: [CurrencyRate] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchLatestCurrency()
         prepareDropdowns()
+        fromCurrencyTextField.delegate = self
+//        activityIndicator.startAnimating()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+//        let allCurrencyData = DBManager.getAllRates()
+        
     }
 
     @IBAction func didTapConvertButton(_ sender: UIButton) {
@@ -98,23 +109,35 @@ class CurrencyConverterViewController: UIViewController {
             switch result {
                 case .success(let exchangeData):
                     DispatchQueue.main.async {
-                        
+                        self.allCurrencyRates = exchangeData.currencyRates
                         let base = exchangeData.baseCurrency
-                        let baseCurrencyRate = exchangeData.currencyRates.first(where: { $0.currencyCode.localizedCaseInsensitiveContains(base) })?.rate
-                        self.currenciesList = exchangeData.currencyRates.map { " ".flag(country: $0.currencyCode) + " " + $0.currencyCode }
+                        let randomPosition = Int.random(in: 1..<self.allCurrencyRates.count)
+                        let randomCurrency = self.allCurrencyRates[randomPosition]
+                        
+                        let baseCurrencyRate = self.allCurrencyRates.first(where: { $0.currencyCode.localizedCaseInsensitiveContains(base) })?.rate
+                        self.currenciesList = self.allCurrencyRates.map { " ".flag(country: $0.currencyCode) + " " + $0.currencyCode }
+                        
                         self.fromCurrencyDropdown.optionArray = self.currenciesList
                         self.targetCurrencyDropdown.optionArray = self.currenciesList
                         
                         self.fromCurrencyDropdown.text = self.currenciesList.first(where: { $0.localizedCaseInsensitiveContains(base)})
+                        self.targetCurrencyDropdown.text = self.currenciesList[randomPosition]
                         
                         self.fromCurrencySymbolLabel.text = base
-                        self.fromCurrencyTextField.text = "\(baseCurrencyRate ?? 0)"
-                        
-                        let randomPosition = Int.random(in: 1..<self.currenciesList.count)
-                        let randomCurrency = exchangeData.currencyRates[randomPosition]
                         self.targetCurrencySymbolLabel.text = randomCurrency.currencyCode
-                        self.targetCurrencyDropdown.text = self.currenciesList[randomPosition]
+                        
+                        self.fromCurrencyTextField.text = "\(baseCurrencyRate ?? 0)"
                         self.targetCurrencyTextField.text = "\(randomCurrency.rate)"
+                        
+                        self.fromCurrencyDropdown.didSelect { selectedText, index, id in
+                            self.fromCurrencyTextField.text = "\(self.allCurrencyRates[index].rate)"
+                            self.fromCurrencySymbolLabel.text = self.allCurrencyRates[index].currencyCode
+                        }
+                        
+                        self.targetCurrencyDropdown.didSelect { selectedText, index, id in
+                            self.targetCurrencyTextField.text = "\(self.allCurrencyRates[index].rate)"
+                            self.targetCurrencySymbolLabel.text = self.allCurrencyRates[index].currencyCode
+                        }
                         
                     }
                 case .failure(let error):
@@ -125,3 +148,18 @@ class CurrencyConverterViewController: UIViewController {
     
 }
 
+extension CurrencyConverterViewController: UITextFieldDelegate {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if textField == fromCurrencyTextField && fromCurrencyTextField.text != "" {
+            let targetCurrencyCode = targetCurrencySymbolLabel.text
+            let fromCurrencyCode = fromCurrencySymbolLabel.text
+            guard let targetCurrencyCode = targetCurrencyCode, let fromCurrencyCode = fromCurrencyCode else { return }
+            let targetRateToBaseCurrency = (self.allCurrencyRates.first { $0.currencyCode == targetCurrencyCode }?.rate)!
+            let fromRateToBaseCurrency = (self.allCurrencyRates.first { $0.currencyCode == fromCurrencyCode }?.rate)!
+            
+            let valueToConvert = (fromCurrencyTextField.text! as NSString).doubleValue
+            let result = (valueToConvert * targetRateToBaseCurrency) / fromRateToBaseCurrency
+            self.targetCurrencyTextField.text = "\(result)"
+        }
+    }
+}
