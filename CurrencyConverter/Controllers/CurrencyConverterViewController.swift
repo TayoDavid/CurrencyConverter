@@ -54,7 +54,16 @@ class CurrencyConverterViewController: UIViewController {
         fetchLatestCurrency()
         prepareDropdowns()
         fromCurrencyTextField.delegate = self
-//        activityIndicator.startAnimating()
+        
+        chartView.rightAxis.enabled = false
+        let yAxis = chartView.leftAxis
+        yAxis.setLabelCount(5, force: false)
+        yAxis.labelTextColor = .white
+        yAxis.axisLineColor = .white
+        
+        let xAxis = chartView.xAxis
+        xAxis.labelPosition = .bottom
+        xAxis.labelTextColor = .white
     }
     
 
