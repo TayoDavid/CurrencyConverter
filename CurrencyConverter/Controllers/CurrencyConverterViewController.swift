@@ -66,11 +66,6 @@ class CurrencyConverterViewController: UIViewController {
         xAxis.labelTextColor = .white
     }
     
-
-    @IBAction func didTapConvertButton(_ sender: UIButton) {
-        
-    }
-    
     override func viewWillLayoutSubviews() {
         fromCurrencyView.layer.cornerRadius = 8
         targetCurrencyView.layer.cornerRadius = 8
@@ -89,13 +84,11 @@ class CurrencyConverterViewController: UIViewController {
         chartContainerView.roundCorners(corners: [.topLeft, .topRight], radius: 24)
     }
     
-    private func prepareDropdowns() {
-        fromCurrencyDropdown.arrowSize = 12
-        fromCurrencyDropdown.arrowColor = .systemGray4
-        targetCurrencyDropdown.arrowSize = 12
-        targetCurrencyDropdown.arrowColor = .systemGray4
+    @IBAction func didTapConvertButton(_ sender: UIButton) {
+        
     }
     
+    // MARK: - CHART VIEW TABS BUTTON
     
     @IBAction func didTapButton(_ sender: UIButton) {
         if sender == lastThirtyDaysButton {
@@ -112,6 +105,17 @@ class CurrencyConverterViewController: UIViewController {
             lastThirtyDaysActiveIndicator.isHidden = true
         }
     }
+    
+    //MARK: - PREPARING DROPDOWNS
+    private func prepareDropdowns() {
+        fromCurrencyDropdown.arrowSize = 12
+        fromCurrencyDropdown.arrowColor = .systemGray4
+        targetCurrencyDropdown.arrowSize = 12
+        targetCurrencyDropdown.arrowColor = .systemGray4
+    }
+    
+    
+    // MARK: - FETCHING LATEST DATA AND UPDATING UI
     
     private func fetchLatestCurrency() {
         APICallsManager.shared.latest { result in
@@ -157,6 +161,8 @@ class CurrencyConverterViewController: UIViewController {
         }
     }
     
+    // MARK: - CHART METHODS
+    
     private func setupChartData(_ target: String) {
         let currenciesDataFromDB = DBManager.getAllRates()
         for rate in currenciesDataFromDB {
@@ -180,6 +186,9 @@ class CurrencyConverterViewController: UIViewController {
     }
     
 }
+
+// MARK: - IMPROVISING CURRENCY CONVERSION
+// FIXER.IO PLACES RESTRICTIONS ON CONVERSION ENDPOINT.
 
 extension CurrencyConverterViewController: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
