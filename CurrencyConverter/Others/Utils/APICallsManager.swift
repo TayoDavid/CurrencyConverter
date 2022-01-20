@@ -63,6 +63,9 @@ final class APICallsManager {
                                 let rateRecord = Rates()
                                 rateRecord.currencyCode = rate.key
                                 rateRecord.rateValue = rate.value.doubleValue
+                                if rate.key == baseCurrency {
+                                    rateRecord.isBaseCurrency = true
+                                }
                                 self.localRealm.add(rateRecord)
                             }
                             

@@ -58,6 +58,13 @@ extension DateFormatter {
         formatter.dateFormat = "YYYY-MM-dd"
         return formatter
     }()
+    
+    static let chartDateFormater: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_GB")
+        dateFormatter.setLocalizedDateFormatFromTemplate("MMMd")
+        return dateFormatter
+    }()
 }
 
 extension String{

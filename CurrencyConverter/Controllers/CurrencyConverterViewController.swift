@@ -7,6 +7,7 @@
 
 import UIKit
 import iOSDropDown
+import Charts
 
 class CurrencyConverterViewController: UIViewController {
 
@@ -35,7 +36,7 @@ class CurrencyConverterViewController: UIViewController {
     @IBOutlet weak var lastNinetyDaysButton: UIButton!
     @IBOutlet weak var lastNinetyDaysActiveIndicator: UIView!
     
-    @IBOutlet weak var chartView: UIView!
+    @IBOutlet weak var chartView: LineChartView!
     @IBOutlet weak var getAlertLabel: UILabel!
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -43,7 +44,10 @@ class CurrencyConverterViewController: UIViewController {
     var currenciesList: [String] = []
     var baseCurrency: CurrencyRate?
     var allCurrencyRates: [CurrencyRate] = []
-    let currencyData: [CurrencyRate] = []
+    var lineChartEntries = [ChartDataEntry]()
+    
+    var fromCurrencyHistory = [CurrencyRate]()
+    var targetCurrencyHistory = [CurrencyRate]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,10 +57,6 @@ class CurrencyConverterViewController: UIViewController {
 //        activityIndicator.startAnimating()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-//        let allCurrencyData = DBManager.getAllRates()
-        
-    }
 
     @IBAction func didTapConvertButton(_ sender: UIButton) {
         
@@ -108,7 +108,7 @@ class CurrencyConverterViewController: UIViewController {
         APICallsManager.shared.latest { result in
             switch result {
                 case .success(let exchangeData):
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.async { [self] in
                         self.allCurrencyRates = exchangeData.currencyRates
                         let base = exchangeData.baseCurrency
                         let randomPosition = Int.random(in: 1..<self.allCurrencyRates.count)
@@ -129,6 +129,8 @@ class CurrencyConverterViewController: UIViewController {
                         self.fromCurrencyTextField.text = "\(baseCurrencyRate ?? 0)"
                         self.targetCurrencyTextField.text = "\(randomCurrency.rate)"
                         
+                        self.setupChartData(self.targetCurrencySymbolLabel.text!)
+                        
                         self.fromCurrencyDropdown.didSelect { selectedText, index, id in
                             self.fromCurrencyTextField.text = "\(self.allCurrencyRates[index].rate)"
                             self.fromCurrencySymbolLabel.text = self.allCurrencyRates[index].currencyCode
@@ -138,12 +140,34 @@ class CurrencyConverterViewController: UIViewController {
                             self.targetCurrencyTextField.text = "\(self.allCurrencyRates[index].rate)"
                             self.targetCurrencySymbolLabel.text = self.allCurrencyRates[index].currencyCode
                         }
-                        
+                    
                     }
                 case .failure(let error):
                     print(error)
             }
         }
+    }
+    
+    private func setupChartData(_ target: String) {
+        let currenciesDataFromDB = DBManager.getAllRates()
+        for rate in currenciesDataFromDB {
+            if rate.isBaseCurrency == true {
+                fromCurrencyHistory.append(.init(currencyCode: rate.currencyCode, rate: rate.rateValue))
+            } else if rate.currencyCode == target {
+                targetCurrencyHistory.append(.init(currencyCode: rate.currencyCode, rate: rate.rateValue))
+            }
+        }
+        populateChart()
+    }
+    
+    private func populateChart() {
+        for i in fromCurrencyHistory.indices {
+            let entry = ChartDataEntry(x: fromCurrencyHistory[i].rate, y: targetCurrencyHistory[i].rate)
+            lineChartEntries.append(entry)
+        }
+        let dataSet = LineChartDataSet(entries: lineChartEntries, label: "Currency")
+        let data = LineChartData(dataSet: dataSet)
+        chartView.data = data
     }
     
 }

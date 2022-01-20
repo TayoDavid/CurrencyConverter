@@ -54,7 +54,7 @@
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="1" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kuW-qf-r7W">
                                                         <rect key="frame" x="16" y="2" width="282.5" height="44"/>
                                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="20"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CUR" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iBf-ae-SSf">
                                                         <rect key="frame" x="314.5" y="11.5" width="43.5" height="25"/>
@@ -80,7 +80,7 @@
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="1" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5mH-Un-uR0">
                                                         <rect key="frame" x="16" y="2" width="282.5" height="44"/>
                                                         <fontDescription key="fontDescription" name="Futura-Medium" family="Futura" pointSize="20"/>
-                                                        <textInputTraits key="textInputTraits"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                     </textField>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CUR" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hMK-hN-FPv">
                                                         <rect key="frame" x="314.5" y="11.5" width="43.5" height="25"/>
@@ -219,7 +219,7 @@
                                                             <constraint firstItem="zrc-k0-D8K" firstAttribute="top" secondItem="i5s-wH-STo" secondAttribute="bottom" constant="2" id="uPi-4u-Idn"/>
                                                         </constraints>
                                                     </view>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uaU-fW-RHD">
+                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uaU-fW-RHD" customClass="LineChartView" customModule="Charts">
                                                         <rect key="frame" x="20" y="124" width="374" height="277.5"/>
                                                         <color key="backgroundColor" systemColor="secondaryLabelColor"/>
                                                     </view>
@@ -316,7 +316,7 @@
                     <connections>
                         <outlet property="activityIndicator" destination="a1n-hf-vzC" id="5Sz-Ag-HdC"/>
                         <outlet property="chartContainerView" destination="Xk6-a1-Enk" id="K1T-zc-FA1"/>
-                        <outlet property="chartView" destination="uaU-fW-RHD" id="AHu-jD-mZf"/>
+                        <outlet property="chartView" destination="uaU-fW-RHD" id="bP2-qk-6Ig"/>
                         <outlet property="convertButton" destination="uOE-Yr-2ld" id="gEi-LU-LMA"/>
                         <outlet property="fromCurrencyDropdown" destination="vhW-Bn-ase" id="7Es-JR-qu5"/>
                         <outlet property="fromCurrencySymbolLabel" destination="iBf-ae-SSf" id="9F8-lb-dqA"/>
