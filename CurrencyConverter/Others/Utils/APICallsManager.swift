@@ -27,29 +27,10 @@ final class APICallsManager {
         case fluctuation
     }
     
-    private func buildUrlString(for endpoint: Endpoint, queryParams: [String: String] = [:]) -> String? {
-        var urlString = Constants.baseUrl + endpoint.rawValue
-        var queryItems = [URLQueryItem]()
-        
-        queryItems.append(.init(name: "access_key", value: Constants.accessKey))
-        for (name, value) in queryParams {
-            queryItems.append(.init(name: name, value: value))
-        }
-        
-        let queryString = queryItems.map { "\($0.name)=\($0.value ?? "")" }.joined(separator: "&")
-        urlString += "?\(queryString)"
-        
-        print("\n\(urlString)\n")
-        
-        return urlString
-    }
-    
     public func latest(completion: @escaping (Result<ExchangeData, Error>) -> Void) {
-        guard let urlString = buildUrlString(for: .latest) else {
-            return
-        }
-        
-        AF.request(urlString)
+        let urlString = Constants.baseUrl + Endpoint.latest.rawValue
+        let params = ["access_key": Constants.accessKey]
+        AF.request(urlString, parameters: params)
             .validate()
             .responseJSON { response in
                 switch response.result {
@@ -81,9 +62,7 @@ final class APICallsManager {
     
     public func convert(from: String, to: String, amount: String) {
         let params = ["from": from, "to": to, "amount": amount]
-        guard let urlString = buildUrlString(for: .convert, queryParams: params) else { return }
-        
-        print(urlString)
+        print(params)
     }
     
 }
